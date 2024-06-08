@@ -1,0 +1,30 @@
+﻿<UserControl x:Name="userControl" x:Class="UserInterfaces.ConfigEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:localsc="clr-namespace:UserInterfaces"
+             xmlns:localscui="clr-namespace:UserInterfaces"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             
+             >
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Auto" VerticalAlignment="Top" Focusable="False">
+        <ItemsControl 
+                    x:Name="MainPanel"
+                    IsTabStop="False"
+                    Focusable="False"
+                    ItemsSource="{Binding}" 
+                    ItemTemplateSelector="{DynamicResource configSelector}"
+            ItemsPanel="{DynamicResource MainWrapPanel}"/>
+    </ScrollViewer>
+</UserControl>

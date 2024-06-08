@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="UserInterfaces.ConfigToolbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:localscui="clr-namespace:UserInterfaces"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="16" d:DesignWidth="120">
+    <UserControl.Resources>
+        <ItemsPanelTemplate x:Key="EmbdedWrapPanel">
+            <WrapPanel Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+        <ControlTemplate x:Key="ToolboxButton" TargetType="{x:Type Button}">
+            <Border x:Name="Bd" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    Background="{TemplateBinding Background}" 
+                    Padding="{TemplateBinding Padding}" 
+                    SnapsToDevicePixels="True">
+                <ContentPresenter 
+                    ContentTemplate="{TemplateBinding ContentTemplate}" 
+                    Content="{TemplateBinding Content}" 
+                    ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" TargetName="Bd" Value="#FF3399FF"/>
+                    <Setter Property="Background" TargetName="Bd" Value="#FFC2E0FF"/>
+                </Trigger>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="BorderBrush" TargetName="Bd" Value="#FF3399FF"/>
+                    <Setter Property="Background" TargetName="Bd" Value="#FFC2E0FF"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="BorderBrush" TargetName="Bd" Value="#FF3399FF"/>
+                    <Setter Property="Background" TargetName="Bd" Value="#FF99CCFF"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        <DataTemplate DataType="{x:Type localscui:CommandType}">
+            <Button x:Name="cmd"  
+                    Template="{DynamicResource ToolboxButton}" 
+                    Command="{Binding Path=Command}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                    ToolTip="{Binding Path=ToolTip}"  
+                    BorderBrush="#00FFFFFF" Background="#00FFFFFF" Focusable="False">
+                <Button.InputBindings>
+                    <MouseBinding Gesture="Shift+LeftClick" Command="{Binding Path=ShiftCommand}"/>
+                </Button.InputBindings>
+                <StackPanel  Margin="2,0,2,0"  VerticalAlignment="Center">
+                    <Image 
+                        HorizontalAlignment="Center" 
+                        Source="{Binding Path=ImagePath}" 
+                        Width="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelWidth}"
+                        Height="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelHeight}" 
+                        UseLayoutRounding="True"/>
+                    <Label 
+                        Margin="0,-4,0,-4" 
+                        HorizontalAlignment="Center"
+                        Target="{Binding ElementName=cmd}"
+                        Content="{Binding Path=Label}" 
+                        Visibility="{Binding Path=IsLabelVisible}" 
+                        BorderThickness="0,0,0,-1"/>
+                </StackPanel>
+            </Button>
+        </DataTemplate>
+    </UserControl.Resources>
+    <StackPanel Margin="0">
+        <ItemsControl
+                x:Name="UserCmds"
+                MinWidth="120"
+                MinHeight="16"
+                Focusable="False"
+                ItemsPanel="{StaticResource EmbdedWrapPanel}"
+                ItemsSource="{Binding}"/>
+    </StackPanel>
+</UserControl>

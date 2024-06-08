@@ -1,0 +1,193 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:UserInterfaces"
+                    xmlns:localsc="clr-namespace:UserInterfaces"
+                    xmlns:localscui="clr-namespace:UserInterfaces"
+                    >
+
+    <Style TargetType="{x:Type FrameworkElement}" x:Key="ValidatingControl">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="ToolTip" Value="{Binding 
+                Path=(Validation.Errors)[0].ErrorContent, 
+                RelativeSource={x:Static RelativeSource.Self}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <localscui:EnumDescriptionConverter x:Key="enumDescriptionConverter"/>
+    <localscui:EnumCategoryConverter x:Key="enumCategoryConverter"/>
+    <localscui:ConfigSelector x:Key="configSelector" />
+    <DataTemplate x:Key="comboEnumTemplate">
+        <StackPanel Orientation="Horizontal" Margin="4,0">
+            <TextBlock Text="{Binding Converter={StaticResource enumDescriptionConverter}}" HorizontalAlignment="Left" FontWeight="Bold" Height="Auto" VerticalAlignment="Center" Margin="2,0"/>
+            <TextBlock Text="{Binding Converter={StaticResource enumCategoryConverter}}" HorizontalAlignment="Right" FontSize="10" FontStyle="Italic" VerticalAlignment="Bottom" Margin="2,0"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    <localscui:StringNullOrEmptyToVisibilityConverter x:Key="StringToVis"/>
+    <SolidColorBrush x:Key="HeaderLabelColor" Color="{DynamicResource {x:Static SystemColors.ControlDarkDarkColorKey}}"/>
+    <ItemsPanelTemplate x:Key="EmbdedWrapPanel">
+        <WrapPanel Orientation="Horizontal"/>
+    </ItemsPanelTemplate>
+    <ControlTemplate x:Key="ToolboxButton" TargetType="{x:Type Button}">
+        <Border x:Name="Bd" 
+                    BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" 
+                    Background="{TemplateBinding Background}" 
+                    Padding="{TemplateBinding Padding}" 
+                    SnapsToDevicePixels="True">
+            <ContentPresenter 
+                    ContentTemplate="{TemplateBinding ContentTemplate}" 
+                    Content="{TemplateBinding Content}" 
+                    ContentStringFormat="{TemplateBinding ContentStringFormat}" 
+                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" TargetName="Bd" Value="#FF3399FF"/>
+                <Setter Property="Background" TargetName="Bd" Value="#FFC2E0FF"/>
+            </Trigger>
+            <Trigger Property="IsKeyboardFocused" Value="True">
+                <Setter Property="BorderBrush" TargetName="Bd" Value="#FF3399FF"/>
+                <Setter Property="Background" TargetName="Bd" Value="#FFC2E0FF"/>
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+                <Setter Property="BorderBrush" TargetName="Bd" Value="#FF3399FF"/>
+                <Setter Property="Background" TargetName="Bd" Value="#FF99CCFF"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+    <DataTemplate DataType="{x:Type localscui:CommandType}">
+        <Button x:Name="cmd"  
+                    Template="{DynamicResource ToolboxButton}" 
+                    Command="{Binding Path=Command}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" 
+                    ToolTip="{Binding Path=ToolTip}"  
+                    BorderBrush="#00FFFFFF" Background="#00FFFFFF" Focusable="False">
+            <Button.InputBindings>
+                <MouseBinding Gesture="Shift+LeftClick" Command="{Binding Path=ShiftCommand}"/>
+            </Button.InputBindings>
+            <StackPanel  Margin="2,0,2,0"  VerticalAlignment="Center">
+                <Image 
+                        HorizontalAlignment="Center" 
+                        Source="{Binding Path=ImagePath}" 
+                        Width="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelWidth}"
+                        Height="{Binding RelativeSource={RelativeSource Self}, Path=Source.PixelHeight}" 
+                        UseLayoutRounding="True"/>
+                <Label 
+                        Margin="0,-4,0,-4" 
+                        HorizontalAlignment="Center"
+                        Target="{Binding ElementName=cmd}"
+                        Content="{Binding Path=Label}" 
+                        Visibility="{Binding Path=IsLabelVisible}" 
+                        BorderThickness="0,0,0,-1"/>
+            </StackPanel>
+        </Button>
+    </DataTemplate>
+
+    <DataTemplate x:Name="displayBool" DataType="{x:Type localscui:DisplayBool}">
+        <StackPanel Margin="4,0,4,0" Visibility="{Binding Path=Visibility}">
+            <Label Margin="0,2,0,0" Height="26" Content="{Binding Path=Label}" ToolTip="{Binding Path=ToolTip}" Target="{Binding ElementName=TempEditor}" />
+            <CheckBox x:Name="TempEditor" Margin="12,4,0,2" HorizontalAlignment="Left" 
+                          Style="{StaticResource ValidatingControl}"
+                          IsChecked="{Binding Path=Value, Mode=TwoWay, ValidatesOnExceptions=True}"
+                          IsEnabled="{Binding IsEnabled}"
+                          />
+            <ItemsControl 
+                        IsTabStop="False"
+                        Focusable="False"
+                        ItemsSource="{Binding Path=Commands}"
+                        />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Name="displayEnum" DataType="{x:Type localscui:DisplayEnum}">
+        <StackPanel Margin="4,0,4,0" Visibility="{Binding Path=Visibility}">
+            <Label Margin="0,2,0,0" Height="26" Content="{Binding Path=Label}" ToolTip="{Binding Path=ToolTip}" Target="{Binding ElementName=TempEditor}" />
+            <ComboBox x:Name="TempEditor" Margin="8,0,0,2" MinWidth="{Binding Path=Width}" 
+                          DataContext="{Binding}" ItemsSource="{Binding Mode=OneWay, Path=Items}" 
+                          Text="{Binding Path=Value}"  
+                          Style="{StaticResource ValidatingControl}"
+                          SelectedItem="{Binding Path=Value, ValidatesOnExceptions=True}" 
+                          ItemTemplate="{DynamicResource comboEnumTemplate}"
+                          IsEnabled="{Binding IsEnabled}"
+                          />
+            <ItemsControl 
+                        IsTabStop="False"
+                        Focusable="False"
+                        ItemsSource="{Binding Path=Commands}"
+                        />
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Name="displayClass" DataType="{x:Type localscui:DisplayClass}">
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" DataContext="{Binding}" Visibility="{Binding Visibility}">
+            <Expander Margin="0,4,0,4" Header="{Binding Path=Title}" IsExpanded="{Binding Path=Expanded}"  MinWidth="320" x:Name="expParameter2" Focusable="False" IsTabStop="False">
+                <ItemsControl 
+                        IsTabStop="False"
+                        ItemsSource="{Binding Path=Lists}" ItemTemplateSelector="{DynamicResource configSelector}">
+                </ItemsControl>
+            </Expander>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Name="displayObjectList"  DataType="{x:Type localscui:DisplayObjectList}">
+        <StackPanel Visibility="{Binding Visibility}">
+            <Expander Margin="0,4,0,4" Header="{Binding Label}" IsExpanded="True"  MinWidth="220" x:Name="expParameter2" Focusable="False" IsTabStop="False">
+                <localscui:ConfigList Margin="0,4,0,0"/>
+            </Expander>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="displayValueList" DataType="{x:Type localscui:IDisplayList}">
+        <StackPanel Visibility="{Binding Visibility}">
+            <Expander Margin="0,4,0,4" Header="{Binding Label}" IsExpanded="True"  MinWidth="220" x:Name="expParameter2" Focusable="False" IsTabStop="False">
+                <localscui:ConfigListEditor Margin="0,4,0,0"/>
+            </Expander>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate x:Key="displayValue" DataType="{x:Type localscui:IDisplayObject}">
+        <StackPanel Margin="4,0,4,0" Visibility="{Binding Path=Visibility}">
+            <Label Margin="0,2,0,0" Height="26" Content="{Binding Label}" ToolTip="{Binding ToolTip}" Target="{Binding ElementName=TempEditor}" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox x:Name="TempEditor" Margin="8,0,0,2" Height="24" MinWidth="{Binding Path=Width}" HorizontalAlignment="Left" 
+                         Style="{StaticResource ValidatingControl}"
+                         Text="{Binding Value, Mode=TwoWay, ValidatesOnExceptions=True}"
+                          IsEnabled="{Binding IsEnabled}"
+                         />
+                <ItemsControl 
+                        IsTabStop="False"
+                        Focusable="False"
+                        ItemsSource="{Binding Path=Commands}"
+                        />
+
+            </StackPanel>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate x:Key="displayNULL">
+        <TextBlock Text="[NULL]" FontWeight="Bold"/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type localscui:DisplayList}">
+        <ItemsControl 
+                IsTabStop="False"
+                Focusable="False"
+                ItemsSource="{Binding}" 
+                ItemTemplateSelector="{DynamicResource configSelector}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Margin="12,0,12,0" Orientation="Horizontal" VerticalAlignment="Top" MinWidth="28" Focusable="False">
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </DataTemplate>
+    <ItemsPanelTemplate x:Key="MainWrapPanel">
+        <WrapPanel x:Name="wrapPanel" Margin="16" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" Orientation="Vertical">
+        </WrapPanel>
+    </ItemsPanelTemplate>
+
+
+</ResourceDictionary>

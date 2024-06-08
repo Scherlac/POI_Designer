@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="UserInterfaces.ConfigViewer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:localsc="clr-namespace:UserInterfaces"
+             xmlns:localscui="clr-namespace:UserInterfaces"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             
+             >
+
+    <UserControl.Resources>
+
+        <localscui:EnumDescriptionConverter x:Key="enumDescriptionConverter"/>
+        <localscui:EnumCategoryConverter x:Key="enumCategoryConverter"/>
+        <DataTemplate x:Key="comboEnumTemplate">
+            <StackPanel Orientation="Horizontal" MinWidth="220" Margin="4,0">
+                <TextBlock Text="{Binding Converter={StaticResource enumDescriptionConverter}}" HorizontalAlignment="Left" FontWeight="Bold" Height="Auto" VerticalAlignment="Center" Margin="2,0"/>
+                <TextBlock Text="{Binding Converter={StaticResource enumCategoryConverter}}" HorizontalAlignment="Right" FontSize="10" FontStyle="Italic" VerticalAlignment="Bottom" Margin="2,0"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <localscui:StringNullOrEmptyToVisibilityConverter x:Key="StringToVis"/>
+
+        <!--DataTemplate DataType="{x:Type localsc:SignalDescriptorBase}">
+            <StackPanel Orientation="Horizontal" MinWidth="220">
+                <TextBlock Text="Name: " FontWeight="Bold"/>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Name}"/>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource StringToVis}, Path=Unit}">
+                    <TextBlock Text=" ["/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Unit}"/>
+                    <TextBlock Text="]"/>
+                </StackPanel>
+                <TextBlock Text="; ( A: " FontWeight="Bold"/>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding Path=DataOffset}"/>
+                <TextBlock Text=", S: " FontWeight="Bold"/>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding Path=ShiftCount}"/>
+                <TextBlock Text=", B: " FontWeight="Bold"/>
+                <TextBlock HorizontalAlignment="Left" Text="{Binding Path=DataWidth}"/>
+                <TextBlock Text=" );" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource BoolToVis}, Path=LowThresholdTriggerEnable}">
+                    <TextBlock Text=" Lo: " FontWeight="Bold"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Path=LowThreshold}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource BoolToVis}, Path=HighThresholdTriggerEnable}">
+                    <TextBlock Text=" Hi: " FontWeight="Bold"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Path=HighThreshold}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Visibility="{Binding Converter={StaticResource StringToVis}, Path=Description}">
+                    <TextBlock Text=" (" FontStyle="Italic"/>
+                    <TextBlock HorizontalAlignment="Left" Text="{Binding Path=Description}" FontStyle="Italic"/>
+                    <TextBlock Text=")" FontStyle="Italic"/>
+                </StackPanel>
+            </StackPanel>
+        </DataTemplate-->
+
+    </UserControl.Resources>
+
+    <StackPanel 
+        HorizontalAlignment="Left" VerticalAlignment="Top" DataContext="{Binding}">
+        <ItemsControl
+            Margin="5"
+            x:Name="MainPanel"
+            ItemsSource="{Binding}"/>
+
+    </StackPanel>
+
+
+
+</UserControl>

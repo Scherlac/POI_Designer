@@ -1,0 +1,25 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:localscui="clr-namespace:UserInterfaces"
+        x:Class="UserInterfaces.ConfigPrompt"
+        xmlns:localsc="clr-namespace:UserInterfaces"
+        Title="ConfigPrompt" MinHeight="320" MinWidth="512" Height="480" Width="640" Icon="Images\BoschLogo2.ico">
+    <Window.Resources>
+    </Window.Resources>
+    <DockPanel>
+
+        <!--StackPanel x:Name="ControlStack" DockPanel.Dock="Top" MinHeight="120" MinWidth="220">
+            <StackPanel HorizontalAlignment="Center"  Margin="8">
+            </StackPanel>
+        </StackPanel-->
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="8" >
+                <Button HorizontalAlignment="Right"  Margin="8" Height="28" MinWidth="80" Content="Ok" Click="cmdOk"/>
+                <Button HorizontalAlignment="Right"  Margin="8" Height="28" MinWidth="80" Content="Cancel" Click="cmdCancel"/>
+                
+            </StackPanel>
+        </StackPanel>
+        <localscui:ConfigEditor x:Name="ConfigEditor" MinWidth="220" MinHeight="120" DockPanel.Dock="Top"/>
+    </DockPanel>
+</Window>

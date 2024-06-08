@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\112_ArrowCurve_Blue_Left_16x16_72.png" />
+    <None Remove="Images\112_ArrowCurve_Blue_Left_Up_16x16_72.png" />
+    <None Remove="Images\112_ArrowCurve_Blue_Right_16x16_72.png" />
+    <None Remove="Images\112_DownArrowShort_Blue_16x16_72.png" />
+    <None Remove="Images\112_Minus_Orange_16x16_72.png" />
+    <None Remove="Images\112_Plus_Green_16x16_72.png" />
+    <None Remove="Images\112_UpArrowShort_Blue_16x16_72.png" />
+    <None Remove="Images\BoschLogo2.ico" />
+    <None Remove="Images\BoschLogo2.png" />
+    <None Remove="Images\Bosch_Logo.ico" />
+    <None Remove="Images\Bosch_Logo.png" />
+    <None Remove="Images\NewDocumentHS.png" />
+    <None Remove="Images\openHS.png" />
+    <None Remove="Images\saveHS.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\112_ArrowCurve_Blue_Left_16x16_72.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\112_ArrowCurve_Blue_Left_Up_16x16_72.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\112_ArrowCurve_Blue_Right_16x16_72.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\112_DownArrowShort_Blue_16x16_72.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\112_Minus_Orange_16x16_72.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\112_Plus_Green_16x16_72.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\112_UpArrowShort_Blue_16x16_72.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\BoschLogo2.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\BoschLogo2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Bosch_Logo.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Bosch_Logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\NewDocumentHS.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\openHS.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\saveHS.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
