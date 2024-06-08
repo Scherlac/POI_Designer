@@ -10,6 +10,20 @@
         Title="MainWindow" Height="450" Width="800">
     
     <StackPanel>
-        <ui:ConfigEditor x:Name="Editor" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <StackPanel Orientation="Horizontal">
+            <ui:ConfigEditor x:Name="Editor" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <StackPanel>
+                <Label>Image</Label>
+                <TextBox x:Name="NameTextBox"/>
+                <Canvas x:Name="Canvas" Background="LightGray" Width="500" Height="500" 
+                        MouseLeftButtonDown="Canvas_MouseLeftButtonDown" 
+                        MouseMove="Canvas_MouseMove" 
+                        MouseLeftButtonUp="Canvas_MouseLeftButtonUp"/>
+                
+
+            </StackPanel>
+
+        </StackPanel>
+        
     </StackPanel>
 </Window>

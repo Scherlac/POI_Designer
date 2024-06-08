@@ -67,6 +67,8 @@ namespace POI_Designer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DemoGUI store;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -74,7 +76,48 @@ namespace POI_Designer
                 Center = new Model.Point() { X = 100, Y = 100 },
                 Size = new Model.Size() { Width = 50, Height = 50 }
             };
-            this.Editor.SetDC(DisplayClass.Assign(new DemoGUI()));
+            this.store = new DemoGUI();
+
+            this.Editor.SetDC(DisplayClass.Assign(this.store));
         }
+
+        private void Canvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //this.Canvas.
+
+            var poi = new Model.POI()
+            {
+
+                Center = new Model.Point() { X = e.GetPosition(this).X, Y = e.GetPosition(this).Y },
+                Size = new Model.Size() { Width = 50, Height = 50 }
+            };
+
+            this.store.TheList2.Add(poi);   
+
+            this.Editor.SetDC(DisplayClass.Assign(this.store));
+        }
+
+        private void Canvas_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //var poi = new Model.POI()
+            //{
+            //    Center = new Model.Point() { X = e.GetPosition(this).X, Y = e.GetPosition(this).Y },
+            //    Size = new Model.Size() { Width = 50, Height = 50 }
+            //};
+            //this.Editor.SetDC(DisplayClass.Assign(new DemoGUI()));
+        }
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            //var poi = new Model.POI()
+            //{
+            //    Center = new Model.Point() { X = e.GetPosition(this).X, Y = e.GetPosition(this).Y },
+            //    Size = new Model.Size() { Width = 50, Height = 50 }
+            //};
+            //this.Editor.SetDC(DisplayClass.Assign(new DemoGUI()));
+        }
+
+
+
     }
 }
