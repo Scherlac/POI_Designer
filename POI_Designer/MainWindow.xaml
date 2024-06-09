@@ -15,11 +15,26 @@
             <StackPanel>
                 <Label>Image</Label>
                 <TextBox x:Name="NameTextBox"/>
-                <Canvas x:Name="Canvas" Background="LightGray" Width="500" Height="500" 
-                        MouseLeftButtonDown="Canvas_MouseLeftButtonDown" 
-                        MouseMove="Canvas_MouseMove" 
-                        MouseLeftButtonUp="Canvas_MouseLeftButtonUp"/>
-                
+                <ItemsControl x:Name="Screen" ItemsSource="{Binding}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas x:Name="Canvas" Background="LightGray" Width="500" Height="500" 
+                                MouseLeftButtonDown="Canvas_MouseLeftButtonDown" 
+                                MouseMove="Canvas_MouseMove" 
+                                MouseLeftButtonUp="Canvas_MouseLeftButtonUp"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="model:POI">
+                            <Rectangle Width="{Binding Size.Width}" Height="{Binding Size.Height}" Fill="Black">
+                                <Rectangle.RenderTransform>
+                                    <TranslateTransform X="{Binding Center.X}" Y="{Binding Center.Y}"/>
+                                </Rectangle.RenderTransform>
+                            </Rectangle>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
 
             </StackPanel>
 

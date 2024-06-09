@@ -90,40 +90,26 @@ namespace UserInterfaces
 	]
 	public class DisplayAttribute : Attribute
 	{
-		/// <summary>
-		/// This is the default constructor. 
-		/// </summary>
-		/// <param name="Label"></param>
-		/// <param name="ToopTip"></param>
-		/// <param name="Width"></param>
-		/// <param name="VPName">This is the name of the property used to control the visibility. (Visibility property name)</param>
-		public DisplayAttribute(string Label, string ToopTip, int Width, string VPName = null)
-		{
-			this.Label = Label;
-			this.ToolTip = ToopTip;
-			this.Width = Width;
-			this.VPName = VPName;
-			this.VLName = null;
-			this.IsReadonly = false;
-		}
 
-		/// <summary>
-		/// This is the default constructor. 
-		/// </summary>
-		/// <param name="Label"></param>
-		/// <param name="ToopTip"></param>
-		/// <param name="Width"></param>
-		/// <param name="VPName">This is the name of the property used to control the visibility. (Visibility property name)</param>
-		/// <param name="VLName">This is the name of the property contains the validation list</param>
-		/// <param name="IsReadonly"></param>
-		public DisplayAttribute(string Label, string ToopTip, int Width, bool IsReadonly, string VPName = null, string VLName = null)
+        /// <summary>
+        /// This is the default constructor. 
+        /// </summary>
+        /// <param name="Label"></param>
+        /// <param name="ToopTip"></param>
+        /// <param name="Width"></param>
+        /// <param name="VPName">This is the name of the property used to control the visibility. (Visibility property name)</param>
+        /// <param name="VLName">This is the name of the property contains the validation list</param>
+        /// <param name="IDXName">This is the name of the property contains the selected index of a list</param>
+        /// <param name="IsReadonly"></param>
+        public DisplayAttribute(string Label, string ToopTip, int Width, bool IsReadonly = false, string VPName = null, string VLName = null, string IDXName = null)
 		{
 			this.Label = Label;
 			this.ToolTip = ToopTip;
 			this.Width = Width;
 			this.VPName = VPName;
 			this.VLName = VLName;
-			this.IsReadonly = IsReadonly;
+            this.IDXName = IDXName;
+            this.IsReadonly = IsReadonly;
 		}
 
 		public string Label { get; set; }
@@ -131,7 +117,8 @@ namespace UserInterfaces
 		public int Width { get; set; }
 		public string VPName { get; set; }
 		public string VLName { get; set; }
-		public bool IsReadonly { get; set; }
+        public string IDXName { get; private set; }
+        public bool IsReadonly { get; set; }
 
 	}
 
@@ -248,7 +235,8 @@ namespace UserInterfaces
 				Width = dia.Width;
 
 				VPName = dia.VPName;
-				IsEnabled = !dia.IsReadonly;
+                IDXName = dia.IDXName;
+                IsEnabled = !dia.IsReadonly;
 
 			}
 			else
@@ -271,7 +259,9 @@ namespace UserInterfaces
 		public int Width { set; get; }
 		public CommandTypeList Commands { set; get; }
 		public string VPName { set; get; }
-		protected Type Controll;
+        public string IDXName { set;  get; }
+
+        protected Type Controll;
 
 		//private bool m_IsEnabled;
 		//public bool IsEnabled { set { SetField(ref m_IsEnabled, value); } get { return m_IsEnabled; } }
@@ -343,7 +333,12 @@ namespace UserInterfaces
 					pInfoVP = o.GetType().GetProperty(dia.VPName);
 				}
 
-				this.IsEnabled = !dia.IsReadonly;
+                if (null != dia.IDXName)
+                {
+                    pInfoIDX = o.GetType().GetProperty(dia.IDXName);
+                }
+
+                this.IsEnabled = !dia.IsReadonly;
 			}
 			else
 			{
@@ -444,8 +439,8 @@ namespace UserInterfaces
 
 		protected PropertyInfo pInfoVP;
 		protected PropertyInfo pInfo;
-
-	}
+        protected PropertyInfo pInfoIDX;
+    }
 
 	public class DisplayString : DisplayPropertyBase<string>
 	{
@@ -656,9 +651,13 @@ namespace UserInterfaces
 			{
 				OnPropertyChanged("Visibility");
 			}
-		}
+            else if (e.PropertyName == IDXName)
+            {
+                OnPropertyChanged("Visibility");
+            }
+        }
 
-		private ObservableCollection<object> class_list;
+        private ObservableCollection<object> class_list;
 		protected CommandTypeList cmd_list;
 		protected CommandType key;
 
@@ -667,9 +666,16 @@ namespace UserInterfaces
 		{
 			set
 			{
-				SetField(ref selection, value);
-				OnPropertyChanged("Selected");
-			}
+				if (pInfoIDX != null)
+				{
+                    pInfoIDX.SetValue(obj, value);
+                }
+				else
+				{
+                    SetField(ref selection, value);
+                    OnPropertyChanged("Selected");
+                }
+            }
 			get
 			{
 				return selection;
