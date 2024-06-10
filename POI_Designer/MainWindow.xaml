@@ -26,7 +26,13 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="model:POI">
-                            <Rectangle Width="{Binding Size.Width}" Height="{Binding Size.Height}" Fill="Black">
+                            <Rectangle 
+                                Width="{Binding Size.Width}" 
+                                Height="{Binding Size.Height}"
+                                Stroke="#40000060"
+                                Fill="#10000060"
+                                
+                                >
                                 <Rectangle.RenderTransform>
                                     <TranslateTransform X="{Binding Center.X}" Y="{Binding Center.Y}"/>
                                 </Rectangle.RenderTransform>
@@ -34,11 +40,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
-
             </StackPanel>
-
         </StackPanel>
-        
     </StackPanel>
 </Window>
