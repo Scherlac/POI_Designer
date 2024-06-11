@@ -7,40 +7,102 @@
         xmlns:model="clr-namespace:POI_Designer.Model"
         xmlns:ui="clr-namespace:UserInterfaces;assembly=UserInterfaces"        
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <ui:ConfigEditor x:Name="Editor" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <StackPanel>
-                <Label>Image</Label>
-                <TextBox x:Name="NameTextBox"/>
-                <ItemsControl x:Name="Screen" ItemsSource="{Binding}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <Canvas x:Name="Canvas" Background="LightGray" Width="500" Height="500" 
-                                MouseLeftButtonDown="Canvas_MouseLeftButtonDown" 
-                                MouseMove="Canvas_MouseMove" 
-                                MouseLeftButtonUp="Canvas_MouseLeftButtonUp"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="model:POI">
-                            <Rectangle 
-                                Width="{Binding Size.Width}" 
-                                Height="{Binding Size.Height}"
-                                Stroke="#40000060"
-                                Fill="#10000060"
-                                
-                                >
-                                <Rectangle.RenderTransform>
-                                    <TranslateTransform X="{Binding Center.X}" Y="{Binding Center.Y}"/>
-                                </Rectangle.RenderTransform>
-                            </Rectangle>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+        Title="POI Designer" Height="720" Width="1280">
+    <Window.Resources>
+        <DataTemplate DataType="model:POIGroup">
+            <DataGrid x:Name="categoryDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True"
+                    ItemsSource="{Binding}" Margin="2,2,2,2"
+                    RowDetailsVisibilityMode="VisibleWhenSelected">
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="categoryIdColumn" Binding="{Binding Center.X}"
+                                    Header="Center.X" Width="SizeToHeader"/>
+                    <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Center.Y}"
+                                    Header="Center.Y" Width="SizeToHeader"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Top" VerticalAlignment="Center">
+            <ui:ConfigToolbar x:Name="Toolbar" Height="Auto" Width="Auto"/>
         </StackPanel>
-    </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+            <Label
+                Margin="6"
+                HorizontalAlignment="Right" FontSize="18" Foreground="#FF948A8A" FontWeight="Bold"
+                
+                >ME/ECF-SWA-HU - POI Designer</Label>
+        </StackPanel>
+
+        <ScrollViewer x:Name="scrollViewer" 
+                        DockPanel.Dock="Left" VerticalAlignment="Top"
+                        Width="520"
+                        Background="Transparent"
+                        VerticalScrollBarVisibility="Auto" Focusable="False">
+            <StackPanel>
+            <ui:ConfigEditor x:Name="Editor" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <DataGrid x:Name="categoryDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True"
+                    ItemsSource="{Binding}" Margin="2,2,2,2"
+                    Height="Auto"
+                    RowDetailsVisibilityMode="VisibleWhenSelected">
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="categoryIdColumn" Binding="{Binding Center.X}"
+                                    Header="Center.X" Width="SizeToHeader"/>
+                    <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Center.Y}"
+                                    Header="Center.Y" Width="SizeToHeader"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel DockPanel.Dock="Right" VerticalAlignment="Top">
+            <Label>Image</Label>
+            <TextBox x:Name="NameTextBox"/>
+            <!--Rectangle 
+                x:Name="POIGroup"
+                DataContext="{Binding}"
+                Width="{Binding Size.Width}" 
+                Height="{Binding Size.Height}"
+                /-->
+
+            <ItemsControl x:Name="Screen" ItemsSource="{Binding}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas x:Name="Canvas" Background="LightGray" Width="500" Height="500" 
+                            MouseLeftButtonDown="Canvas_MouseLeftButtonDown" 
+                            MouseMove="Canvas_MouseMove" 
+                            MouseLeftButtonUp="Canvas_MouseLeftButtonUp"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="model:POI">
+                        <Rectangle 
+                            Width="{Binding Size.Width}" 
+                            Height="{Binding Size.Height}"
+                            Stroke="#40000060"
+                            Fill="#10000060"
+                                
+                            >
+                            <Rectangle.RenderTransform>
+                                <TransformGroup>
+                                    <TranslateTransform X="{Binding Center.X}" Y="{Binding Center.Y}"/>
+                                </TransformGroup>
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <DataGrid>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="X" Binding="{Binding Center.X}"/>
+                    <DataGridTextColumn Header="Y" Binding="{Binding Center.Y}"/>
+                </DataGrid.Columns>
+
+
+            </DataGrid>
+        </StackPanel>
+    </DockPanel>
 </Window>

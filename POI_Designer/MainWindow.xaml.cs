@@ -44,8 +44,32 @@ namespace POI_Designer
             viewModel = DisplayClass.Assign(items);
 
             this.Editor.SetDC(viewModel);
+            //this.POIGroup.DataContext = this.store.VideoItems[this.store.SelectedVideoIndex].POIGroup;
+            this.categoryDataGrid.DataContext = this.store.VideoItems[this.store.SelectedVideoIndex].POIGroup.POIs;
 
             this.Screen.DataContext = this.store.VideoItems[this.store.SelectedVideoIndex].POIGroup.POIs;
+            var toolbarCommands = new List<CommandType>() {
+                new CommandType("", "Add a new item to the list.", "Images/112_Plus_Green_16x16_72.png", (c) =>
+                {
+                    //AddItem(1);
+                }),
+                new CommandType("", "Remove the selected item from the list.", "Images/112_Minus_Orange_16x16_72.png", (c) =>
+                {
+                    //RemoveItem();
+                }),
+                new CommandType("", "Move up the selected item.", "Images/112_UpArrowShort_Blue_16x16_72.png", c =>
+                {
+                    //MoveItem(-1);
+                }),
+                new CommandType("", "Move down the selected item.", "Images/112_DownArrowShort_Blue_16x16_72.png", c =>
+                {
+                    //MoveItem(+1);
+                }),
+
+                null
+                };
+
+            this.Toolbar.DataContext = toolbarCommands;
 
         }
 

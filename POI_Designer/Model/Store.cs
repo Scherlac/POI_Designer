@@ -20,11 +20,16 @@ namespace POI_Designer.Model
         [Category("Base1")]
         public int SelectedVideoIndex { get; set; }
     
+
+
+
         //// List of video items
         //[Description("List of video items")]
         //[Display("_VideoItems", "List of video items", 160, IDXName: "SelectedVideoIndex"  )]
         //[Category("Base2")]
         public List<VideoItem> VideoItems { get; set; }
+
+
 
     }
 }
